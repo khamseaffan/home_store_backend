@@ -1,9 +1,11 @@
 package com.khamse.home_store.repository;
 
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@RestController
-public class UserRepository {
-    
+import com.khamse.home_store.model.User;
+
+// @Repository
+public interface UserRepository extends JpaRepository<User, Long> {
     
 }

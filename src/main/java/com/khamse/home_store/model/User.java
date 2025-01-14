@@ -1,9 +1,6 @@
 package com.khamse.home_store.model;
 
 import jakarta.persistence.Column;
-
-// import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,7 +16,10 @@ public class User {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
 
     @Column(nullable = false)
     private String email;
@@ -30,18 +30,85 @@ public class User {
     @Column(nullable = false)
     private String role;
 
+    @Column(nullable = true)
+    private String phoneNumber;
+
+    @Column(nullable = true)
+    private String address;
+
+    @Column(nullable = true)
+    private String street;
+
+    @Column(nullable = true)
+    private String city;
+
+    @Column(nullable = true)
+    private String zipcode;
+
+    @Column(nullable = true)
+    private String state;
+
+    @Column(nullable = true)
+    private String country;
+
     // Constructors
     public User() {
     }
 
-    public User(String name, String email, String password, String role) {
-        this.name = name;
+    public User(String firstName, String lastName, String email, String password, String role, String phoneNumber, String address, String street, String city, String zipcode, String state, String country) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.street = street;
+        this.city = city;
+        this.zipcode = zipcode;
+        this.state = state;
+        this.country = country;
+    }
 
-        // BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        // this.password = passwordEncoder.encode(password);
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getRole() {
@@ -52,44 +119,43 @@ public class User {
         this.role = role;
     }
 
-    public Long getId() {
-        return id;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public String getName(){
-        return this.name;
+    public String getAddress() {
+        return address;
     }
 
-    public void setName(String name){
-        this.name = name;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getEmail(){
-        return this.email;
+    public String getStreet() {
+        return street;
     }
 
-    public void setEmail(String email){
-        this.email = email;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
-    public void setPassword(String password){
-        this.password = password;
-
-        // BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        // this.password = passwordEncoder.encode(password);
-
+    public String getCity() {
+        return city;
     }
 
-    public String getPassword(){
-        return this.password;
+    public void setCity(String city) {
+        this.city = city;
     }
 
+    public String getZipcode() {
+        return zipcode;
+    }
 
-
-
-
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
 }
