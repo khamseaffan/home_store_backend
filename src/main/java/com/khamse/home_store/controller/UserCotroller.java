@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("api/v1")
-@Tag(name = "Products", description = "Product management APIs")
+@Tag(name = "Users", description = "Product management APIs")
 public class UserCotroller {
     
     private final UserService userService;
