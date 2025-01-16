@@ -83,6 +83,36 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.8</version>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+       		</plugin>
+
+			<plugin>
+				<groupId>com.github.hazendaz.maven</groupId>
+				<artifactId>coveralls-maven-plugin</artifactId>
+				<version>4.5.0-M6</version>
+				<configuration>
+					<repoToken>KYxzMfdDe2K7ms1nXI47UZxiis1i793Xa</repoToken>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 

@@ -1,4 +1,12 @@
-# Home Store Backend
+# Home Store Backend 
+
+---
+
+[![Coverage Status](https://coveralls.io/repos/github/khamseaffan/home_store_backend/badge.svg?branch=main)](https://coveralls.io/github/khamseaffan/home_store_backend?branch=main)
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.hazendaz.maven/coveralls-maven-plugin)](https://maven-badges.herokuapp.com/maven-central/com.github.hazendaz.maven/coverall-maven-plugin)
+[![MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+---
 
 The backend of the Home Store App, built using **Spring Boot** and following a **microservices architecture**, provides RESTful APIs for managing products, stores, users, bills, and transactions. It uses **MySQL** as the database, with automatic schema generation via JPA.
 
