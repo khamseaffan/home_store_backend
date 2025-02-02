@@ -1,6 +1,6 @@
 package com.khamse.home_store.model;
 
-import jakarta.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 // import org.hibernate.annotations.Collate;
 

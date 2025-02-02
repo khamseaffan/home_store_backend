@@ -1,6 +1,8 @@
 package com.khamse.home_store.model;
 
-import jakarta.annotation.Generated;
+
+import javax.annotation.processing.Generated;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -53,8 +55,26 @@ public class User {
     @Column(nullable = true)
     private String country;
 
-    // Constructors
+    // Default Constructor
     public User() {
+    }
+
+    // Constructors
+    public User(long l, String string, String string2, String string3, String string4, String string5, String string6, String string7, String string8, String string9, String string10, String string11, String string12) {
+        this.id = l;
+        this.firstName = string;
+        this.lastName = string2;
+        this.email = string3;
+        this.password = string4;
+        this.role = string5;
+        this.phoneNumber = string6;
+        this.address = string7;
+        this.street = string8;
+        this.city = string9;
+        this.zipcode = string10;
+        this.state = string11;
+        this.country = string12;
+        
     }
 
     public User(String firstName, String lastName, String email, String password, String role, String phoneNumber, String address, String street, String city, String zipcode, String state, String country) {

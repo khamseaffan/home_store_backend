@@ -107,9 +107,15 @@
 						<goals>
 							<goal>report</goal>
 						</goals>
+						<configuration>
+							<excludes>
+								<exclude>com/khamse/home_store/model/**</exclude>
+							</excludes>
+						</configuration>
 					</execution>
 				</executions>
-       		</plugin>
+			</plugin>
+
 
 			<plugin>
 				<groupId>com.github.hazendaz.maven</groupId>

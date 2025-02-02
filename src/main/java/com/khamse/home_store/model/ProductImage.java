@@ -2,7 +2,7 @@ package com.khamse.home_store.model;
 
 import javax.persistence.Entity;
 
-import jakarta.annotation.Generated;
+import javax.annotation.processing.Generated;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

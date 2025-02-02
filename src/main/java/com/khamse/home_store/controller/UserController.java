@@ -21,12 +21,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("api/v1")
 @Tag(name = "Users", description = "Product management APIs")
-public class UserCotroller {
+public class UserController {
     
     private final UserService userService;
     
     // @Autowired
-    public UserCotroller(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
