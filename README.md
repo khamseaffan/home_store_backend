@@ -3,8 +3,12 @@
 ---
 
 [![Coverage Status](https://coveralls.io/repos/github/khamseaffan/home_store_backend/badge.svg?branch=main)](https://coveralls.io/github/khamseaffan/home_store_backend?branch=main)
-[![Maven Central](https://img.shields.io/maven-central/v/com.github.hazendaz.maven/coveralls-maven-plugin)](https://maven-badges.herokuapp.com/maven-central/com.github.hazendaz.maven/coverall-maven-plugin)
 [![MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+<!--[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=com.khamse.home_store%3Ahome_store_backend&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.khamse.home_store%3Ahome_store_backend)-->
+<!--[![Build Status](https://github.com/khamseaffan/home_store_backend/actions/workflows/maven.yml/badge.svg)](https://github.com/khamseaffan/home_store_backend/actions)-->
+
+
+
 
 ---
 
