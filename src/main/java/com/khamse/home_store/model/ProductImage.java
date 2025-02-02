@@ -2,7 +2,7 @@ package com.khamse.home_store.model;
 
 import javax.persistence.Entity;
 
-import javax.annotation.processing.Generated;
+import org.springframework.aot.generate.Generated;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "product_images")
-@Generated(value = "com.khamse.home_store.model.ProductImage")
+@Generated
 public class ProductImage {
     
     @Id

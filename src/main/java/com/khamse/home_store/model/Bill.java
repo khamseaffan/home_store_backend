@@ -1,6 +1,7 @@
 package com.khamse.home_store.model;
 
-import javax.annotation.processing.Generated;
+import org.springframework.aot.generate.Generated;
+// import jakarta.annotation.Generated;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,7 +19,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "bills")
-@Generated(value = "com.khamse.home_store.model.Bill")
+@Generated
 public class Bill {
 
     @Id

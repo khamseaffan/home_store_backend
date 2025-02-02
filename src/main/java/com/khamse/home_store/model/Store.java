@@ -1,6 +1,6 @@
 package com.khamse.home_store.model;
 
-import javax.annotation.processing.Generated;
+import org.springframework.aot.generate.Generated;
 
 // import org.hibernate.annotations.Collate;
 
@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "stores")
-@Generated(value = "com.khamse.home_store.model.Store")
+@Generated
 public class Store {
 
 
