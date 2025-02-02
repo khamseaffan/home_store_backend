@@ -1,5 +1,7 @@
 package com.khamse.home_store.model;
 
+import jakarta.annotation.Generated;
+
 // import org.hibernate.annotations.Collate;
 
 import jakarta.persistence.Column;
@@ -11,6 +13,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "stores")
+@Generated(value = "com.khamse.home_store.model.Store")
 public class Store {
 
 

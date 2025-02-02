@@ -1,5 +1,6 @@
 package com.khamse.home_store.model;
 
+import jakarta.annotation.Generated;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,6 +11,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "products")
+@Generated(value = "com.khamse.home_store.model.Product")
 public class Product {
 
     @Id

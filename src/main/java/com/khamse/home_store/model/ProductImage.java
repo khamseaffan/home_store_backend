@@ -2,6 +2,7 @@ package com.khamse.home_store.model;
 
 import javax.persistence.Entity;
 
+import jakarta.annotation.Generated;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,6 +15,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "product_images")
+@Generated(value = "com.khamse.home_store.model.ProductImage")
 public class ProductImage {
     
     @Id

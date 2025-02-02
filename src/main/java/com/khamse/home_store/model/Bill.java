@@ -1,5 +1,6 @@
 package com.khamse.home_store.model;
 
+import jakarta.annotation.Generated;
 // import jakarta.annotation.Generated;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -15,8 +16,10 @@ import jakarta.persistence.Table;
 import java.util.List;
 
 
+
 @Entity
 @Table(name = "bills")
+@Generated(value = "com.khamse.home_store.model.Bill")
 public class Bill {
 
     @Id
