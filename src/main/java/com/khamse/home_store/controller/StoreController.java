@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,7 +39,7 @@ public class StoreController {
 
     @GetMapping("/stores/{id}")
     @Operation(summary = "Get store by id", description = "Get store by id from the database")
-    public Store getStoreById(@RequestParam Long id) {
+    public Store getStoreById(@PathVariable Long id) {
         return storeService.getStoreById(id);
     }
 
@@ -50,13 +51,13 @@ public class StoreController {
 
     @PutMapping("/stores/{id}")
     @Operation(summary = "Update a store", description = "Update a store in the database")
-    public Store updateProduct(@RequestParam Long id, @RequestBody Store product) {
+    public Store updateProduct(@PathVariable Long id, @RequestBody Store product) {
         return storeService.updateStore(id, product);
     }
 
     @DeleteMapping("/stores/{id}")
     @Operation(summary = "Delete a store", description = "Delete a store from the database")
-    public void deleteProduct(@RequestParam Long id) {
+    public void deleteProduct(@PathVariable Long id) {
         storeService.deleteStore(id);
     }
 }

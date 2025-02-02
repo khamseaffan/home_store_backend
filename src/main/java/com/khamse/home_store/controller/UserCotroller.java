@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,7 +38,7 @@ public class UserCotroller {
 
     @GetMapping("/users/{id}")
     @Operation(summary = "Get user by id", description = "Get user by id from the database")
-    public User getUserById(@RequestParam Long id) {
+    public User getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
 
@@ -49,13 +50,13 @@ public class UserCotroller {
 
     @PutMapping("/users/{id}")
     @Operation(summary = "Update a user", description = "Update a user in the database")
-    public User updateUser(@RequestParam Long id, @RequestBody User user) {
+    public User updateUser(@PathVariable Long id, @RequestBody User user) {
         return userService.updateUser(id, user);
     }
 
     @DeleteMapping("/users/{id}")
     @Operation(summary = "Delete a user", description = "Delete a user from the database")
-    public void deleteUser(@RequestParam Long id) {
+    public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
     }
     

@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,7 +41,7 @@ public class ProductController {
 
     @GetMapping("/products/{id}")
     @Operation(summary = "Get product by id", description = "Get product by id from the database")
-    public Product getProductById(@RequestParam Long id) {
+    public Product getProductById(@PathVariable Long id) {
         return productService.getProductById(id);
     }
 
@@ -52,13 +53,13 @@ public class ProductController {
 
     @PutMapping("/products/{id}")
     @Operation(summary = "Update a product", description = "Update a product in the database")
-    public Product updateProduct(@RequestParam Long id, @RequestBody Product product) {
+    public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
         return productService.updateProduct(id, product);
     }
 
     @DeleteMapping("/products/{id}")
     @Operation(summary = "Delete a product", description = "Delete a product from the database")
-    public void deleteProduct(@RequestParam Long id) {
+    public void deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
     }
     
