@@ -5,10 +5,10 @@ This document provides a high-level overview of each microservice in the Home St
 ---
 
 ## config-service
-- **Purpose:** Centralized configuration management for all microservices (Spring Cloud Config).
+- **Purpose:** Centralized configuration management for all microservices (Spring Cloud Config). Reads configuration files (e.g., `product-service-dev.yml`) from the `HomeStore_config/` directory (located at the project root).
 - **Main Endpoints:**
-  - `/config/**` (serves configuration properties)
-- **Status:** Not Started
+  - `http://localhost:8888/service-name/profile` (serves configuration properties(dev and prod))
+- **Status:** Stable
 
 ## discovery-service
 - **Purpose:** Service registry for dynamic discovery of microservices (Eureka).
@@ -71,8 +71,9 @@ This document provides a high-level overview of each microservice in the Home St
 ## Notes
 - Each service manages its own database (PostgreSQL).
 - Services communicate via REST APIs (and may use messaging in the future).
+- Configuration is centralized via `config-service` which reads from the root `HomeStore_config/` directory.
 - For detailed API documentation, see each service's README or source code.
 
 ---
 
-_Last updated: April 17, 2025_
+_Last updated: April 19, 2025_
