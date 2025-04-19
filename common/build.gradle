@@ -1,0 +1,53 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.4' apply false
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.khamse.homestore'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+    }
+}
+
+// This module is a library, not an application
+// We don't want the Spring Boot plugin to create a bootJar
+// but we do need a regular jar file
+jar {
+    enabled = true
+    archiveClassifier = ''
+}
+
+dependencies {
+    // Spring dependencies (but not the full Spring Boot starter)
+    implementation 'org.springframework:spring-context'
+    implementation 'org.springframework.data:spring-data-jpa'
+    
+    // Validation
+    implementation 'jakarta.validation:jakarta.validation-api'
+    
+    // Jakarta persistence
+    implementation 'jakarta.persistence:jakarta.persistence-api'
+    
+    // Lombok for boilerplate reduction
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    
+    // OpenAPI/Swagger annotations
+    implementation 'io.swagger.core.v3:swagger-annotations:2.2.20'
+    
+}
+

@@ -1,0 +1,11 @@
+rootProject.name = 'home_store_microservices'
+
+include ':common'
+include ':product-service'
+include ':store-service'
+include ':user-service'
+include ':config-service'
+include ':discovery-service'
+include ':gateway-service'
+include ':cart-service'
+include ':order-service'

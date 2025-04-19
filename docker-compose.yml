@@ -1,0 +1,74 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15
+    container_name: homestore_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: homestore_user
+      POSTGRES_PASSWORD: user_homestore
+    ports:
+      - "5432:5432"
+    volumes:
+      - homestore_db_data:/var/lib/postgresql/data
+      - ./init-multi-db.sh:/docker-entrypoint-initdb.d/init-multi-db.sh
+
+  config-service:
+    build: ./config-service
+    ports:
+      - "8888:8888"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+    restart: always
+    volumes:
+      - ./HomeStore_config:/config-repo
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  user-service:
+    build: ./user-service
+    depends_on:
+      config-service:
+        condition: service_healthy
+      postgres:
+        condition: service_started
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_CLOUD_CONFIG_URI: http://config-service:8888
+    restart: always
+
+  product-service:
+    build: ./product-service
+    depends_on:
+      config-service:
+        condition: service_healthy
+      postgres:
+        condition: service_started
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_CLOUD_CONFIG_URI: http://config-service:8888
+    restart: always
+
+  store-service:
+    build: ./store-service
+    depends_on:
+      config-service:
+        condition: service_healthy
+      postgres:
+        condition: service_started
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_CLOUD_CONFIG_URI: http://config-service:8888
+    restart: always
+
+volumes:
+  homestore_db_data:

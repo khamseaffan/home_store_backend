@@ -1,0 +1,49 @@
+// Root project build file
+
+plugins {
+    id 'org.springframework.boot' version '3.4.4' apply false
+    id 'io.spring.dependency-management' version '1.1.7' apply false
+    id 'java'
+}
+
+allprojects {
+    group = 'com.khamse.homestore'
+    version = '0.0.1-SNAPSHOT'
+    
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'io.spring.dependency-management'
+    
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
+    }
+    
+    dependencyManagement {
+        imports {
+            mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+        }
+    }
+    
+    dependencies {
+        // Common dependencies for all modules
+        testImplementation 'org.junit.jupiter:junit-jupiter'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    }
+    
+    tasks.withType(Test) {
+        useJUnitPlatform()
+    }
+}
+
+// Task to run all tests in the project
+task testAll(type: GradleBuild) {
+    tasks = ['test']
+}
