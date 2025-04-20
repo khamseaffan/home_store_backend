@@ -47,6 +47,9 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	// Spring Cloud Discovery
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	
 	// Add H2 for tests
 	testImplementation 'com.h2database:h2'
