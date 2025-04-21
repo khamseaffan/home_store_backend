@@ -3,14 +3,12 @@ package com.khamse.homestore.product;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
+import com.khamse.homestore.product.config.ProductTestConfiguration;
+import org.springframework.context.annotation.Import;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@TestPropertySource(properties = {
-    "firebase.enabled=false",
-    "spring.cloud.gcp.storage.enabled=false"
-})
+@Import(ProductTestConfiguration.class)
 class ProductServiceApplicationTests {
 
 	@Test

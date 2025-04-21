@@ -1,0 +1,26 @@
+server:
+  port: 8761
+
+eureka:
+  client:
+    register-with-eureka: false  
+    fetch-registry: false
+
+# Enable actuator endpoints for health checks
+management:
+    endpoints:
+        web:
+            exposure: 
+                include: '*'
+        health:
+            diskspace:
+                enabled: true
+            show-details: always    
+
+# Set logging level for debugging
+logging:
+    level:
+        org:
+            springframework:
+                cloud:
+                    config: DEBUG
