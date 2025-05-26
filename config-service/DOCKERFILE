@@ -1,6 +1,5 @@
 FROM eclipse-temurin:24-jdk-alpine
-WORKDIR /app
-COPY . .
-RUN ./gradlew build -x test
-EXPOSE 8888
-ENTRYPOINT ["./gradlew", "bootRun"]
+VOLUME /tmp
+RUN apk add --no-cache wget
+COPY build/libs/*.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]

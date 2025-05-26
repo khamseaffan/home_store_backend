@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: payment-service
+  profiles:
+    active: dev # Default to dev, can be overridden by Docker environment variables
+  cloud:
+    config:
+      uri: ${SPRING_CLOUD_CONFIG_URI:http://config-service:8888}
+  config:
+    import: "optional:configserver:"
+
+server:
+  port: 8087 # Assuming port 8087 for payment-service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:http://discovery-service:8761/eureka}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh,health,info
+
+# Stripe API Keys will be configured in the config-server
+# stripe:
+#   api:
+#     key:
+#       public: your_stripe_public_key_here_if_not_from_config_server
+#       secret: your_stripe_secret_key_here_if_not_from_config_server

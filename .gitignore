@@ -1,0 +1,32 @@
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Gradle files
+.gradle/
+**/build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# IDE files
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+*.class
+
+# Properties files (preferring YAML configuration)
+*.properties
+!gradle-wrapper.properties
+**/main/resources/application.properties
+**/test/resources/application.properties
+
+# Logs
+*.log
+logs/
+
+# OS specific
+.DS_Store
+Thumbs.db

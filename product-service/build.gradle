@@ -25,7 +25,6 @@ repositories {
 }
 
 ext {
-	set('springCloudGcpVersion', "6.1.1")
 	set('springCloudVersion', "2024.0.1")
 }
 
@@ -35,7 +34,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0' // Added OpenAPI/Swagger
-	implementation 'com.google.cloud:spring-cloud-gcp-starter-storage'
 	implementation 'org.postgresql:postgresql'
 	// Add Firebase Admin SDK
 	implementation 'com.google.firebase:firebase-admin:9.2.0'
@@ -59,7 +57,6 @@ dependencies {
 
 dependencyManagement {
 	imports {
-		mavenBom "com.google.cloud:spring-cloud-gcp-dependencies:${springCloudGcpVersion}"
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
 }
