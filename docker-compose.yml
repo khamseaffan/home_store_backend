@@ -6,10 +6,11 @@ services:
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "psql -U ${POSTGRES_USER:-homestore_user} -d homestore_user_db -c 'SELECT 1'"] # Check connection to a specific DB
+      test: ["CMD-SHELL", "psql -U ${POSTGRES_USER:-homestore_user} -d ${POSTGRES_DB:-homestore_user_db} -c 'SELECT 1'"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -17,15 +18,17 @@ services:
     volumes:
       - homestore_db_data:/var/lib/postgresql/data
       - ./init-multi-db.sh:/docker-entrypoint-initdb.d/init-multi-db.sh
+    networks:
+      - homestore-network
 
   config-service:
     build: ./config-service
     ports:
       - "8888:8888"
     environment:
-      SPRING_PROFILES_ACTIVE: git
-      GIT_USERNAME: ${GIT_USERNAME}
-      GIT_PASSWORD: ${GIT_PASSWORD}
+      SPRING_PROFILES_ACTIVE: native
+      # GIT_USERNAME: ${GIT_USERNAME}
+      # GIT_PASSWORD: ${GIT_PASSWORD}
     restart: always
     volumes:
       - ./HomeStore_config:/config-repo
@@ -35,6 +38,8 @@ services:
       timeout: 5s
       retries: 5
       start_period: 15s
+    networks:
+      - homestore-network
 
   discovery-service:
     build: ./discovery-service
@@ -52,6 +57,8 @@ services:
         condition: service_healthy
       postgres:
         condition: service_healthy
+    networks:
+      - homestore-network
 
   user-service:
     build: ./user-service
@@ -79,6 +86,8 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
+    networks:
+      - homestore-network
 
   product-service:
     build: ./product-service
@@ -106,6 +115,8 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
+    networks:
+      - homestore-network
 
   store-service:
     build: ./store-service
@@ -133,6 +144,186 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
+    networks:
+      - homestore-network
+
+  cart-service:
+    build:
+      context: ./cart-service
+      dockerfile: Dockerfile
+    container_name: cart-service
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - EUREKA_URI=http://discovery-service:8761/eureka
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/homestore_cart_db # Standardized DB hostname
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER} # Added
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD} # Added
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update # Added
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.PostgreSQLDialect # Added
+    depends_on:
+      - discovery-service
+      # - config-service
+      - postgres # Ensured DB dependency
+    networks:
+      - homestore-network
+
+  order-service:
+    build:
+      context: ./order-service
+      dockerfile: Dockerfile
+    container_name: order-service
+    ports:
+      - "8086:8086" # Updated port
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - EUREKA_URI=http://discovery-service:8761/eureka
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/homestore_order_db # Standardized DB hostname
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER} # Added
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD} # Added
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update # Added
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.PostgreSQLDialect # Added
+    depends_on:
+      - discovery-service
+      # - config-service
+      - postgres # Ensured DB dependency
+    networks:
+      - homestore-network
+
+  gateway-service:
+    build: ./gateway-service
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+      config-service:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:8080/actuator/health || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 20s
+    networks:
+      - homestore-network
+
+  inventory-service:
+    build: ./inventory-service
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+      config-service:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8085:8085" # Assuming 8085, adjust if different
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      SPRING_CLOUD_CONFIG_URI: http://config-service:8888
+      EUREKA_SERVER_URL: http://discovery-service:8761/eureka
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/homestore_inventory_db # Adjust DB name if needed
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:8085/actuator/health || exit 1"] # Adjust port if needed
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      - homestore-network
+
+  payment-service:
+    build: ./payment-service
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+      config-service:
+        condition: service_healthy
+      postgres: # Even if not directly using, good for consistency and potential future use
+        condition: service_healthy
+    ports:
+      - "8087:8087"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      SPRING_CLOUD_CONFIG_URI: http://config-service:8888
+      EUREKA_SERVER_URL: http://discovery-service:8761/eureka
+      # Database details (if needed in future, or for consistency)
+      # SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/homestore_payment_db # Define if DB is used
+      # SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      # SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      # SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      STRIPE_SECRET_KEY_ENV: ${STRIPE_SECRET_KEY} # Mapped from .env
+      STRIPE_PUBLISHABLE_KEY_ENV: ${STRIPE_PUBLISHABLE_KEY} # Mapped from .env
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:8087/actuator/health || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      - homestore-network
+
+  kafka:
+    image: bitnami/kafka:3.7.0
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_CFG_LISTENERS: PLAINTEXT://:9092
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+      ALLOW_PLAINTEXT_LISTENER: "yes"
+    depends_on:
+      - zookeeper
+    networks:
+      - homestore-network
+
+  zookeeper:
+    image: bitnami/zookeeper:3.8.4
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: "yes"
+    networks:
+      - homestore-network
+
+  notification-service:
+    build: ./notification-service
+    depends_on:
+      discovery-service:
+        condition: service_healthy
+      config-service:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+    ports:
+      - "8088:8088"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      SPRING_CLOUD_CONFIG_URI: http://config-service:8888
+      EUREKA_SERVER_URL: http://discovery-service:8761/eureka
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "wget --spider -q http://localhost:8088/actuator/health || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      - homestore-network
 
 volumes:
   homestore_db_data:
+
+networks:
+  homestore-network:
+    driver: bridge

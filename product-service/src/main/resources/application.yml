@@ -8,6 +8,18 @@ spring:
       uri: ${SPRING_CLOUD_CONFIG_URI:http://localhost:8888}
   config:
     import: "optional:configserver:"
+#  autoconfigure:
+#    exclude:
+#      - com.google.cloud.spring.autoconfigure.storage.GcpStorageAutoConfiguration
+#      - com.google.cloud.spring.autoconfigure.core.GcpContextAutoConfiguration
+
+# Firebase Configuration
+firebase:
+  enabled: true  # Set to true to enable Firebase Storage
+  storage:
+    bucket: homestore-c8279.firebasestorage.app
+  credentials:
+    location: serviceAccountKey.json
 
 server:
   port: 8082

@@ -3,7 +3,7 @@ package com.khamse.homestore.product.service;
 import com.khamse.homestore.common.model.GlobalProduct;
 import com.khamse.homestore.common.model.Inventory;
 import com.khamse.homestore.product.repository.GlobalProductRepository;
-import com.khamse.homestore.product.util.FirebaseStorageService;
+import com.khamse.homestore.product.util.StorageService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,14 +24,14 @@ public class StoreProductService {
 
     private final StoreProductRepository storeProductRepository;
     private final GlobalProductRepository globalProductRepository;
-    private final FirebaseStorageService firebaseStorageService;
+    private final StorageService storageService;
 
     public StoreProductService(
         StoreProductRepository productRepository,
         GlobalProductRepository globalProductRepository,
-        FirebaseStorageService firebaseStorageService) {
+        StorageService storageService) {
         this.storeProductRepository = productRepository;
-        this.firebaseStorageService = firebaseStorageService;
+        this.storageService = storageService;
         this.globalProductRepository = globalProductRepository;
     }
 
@@ -87,7 +87,7 @@ public class StoreProductService {
         storeProduct.setQuantity(requestDTO.getQuantity());
 
         if (images != null && !images.isEmpty()) {
-            List<String> imageUrls = firebaseStorageService.uploadFiles(images);
+            List<String> imageUrls = storageService.uploadFiles(images);
             storeProduct.setImageURList(imageUrls);
         }
 
@@ -99,7 +99,7 @@ public class StoreProductService {
     @Transactional
     public boolean deleteProduct(UUID id) {
         if (storeProductRepository.existsById(id)) {
-            firebaseStorageService.deleteImages(storeProductRepository.findById(id).get().getImageURList());
+            storageService.deleteImages(storeProductRepository.findById(id).get().getImageURList());
             storeProductRepository.deleteById(id);
             return true;
         }

@@ -1,6 +1,6 @@
 package com.khamse.homestore.product.service;
 
-import com.khamse.homestore.product.util.FirebaseStorageService;
+import com.khamse.homestore.product.util.StorageService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,12 +19,12 @@ public class GlobalProductService {
 
     private final GlobalProductRepository globalProductRepository;
 
-    private final FirebaseStorageService firebaseStorageService;
+    private final StorageService storageService;
 
     // @Autowired
-    public GlobalProductService(GlobalProductRepository globalProductRepository, FirebaseStorageService firebaseStorageService) {
+    public GlobalProductService(GlobalProductRepository globalProductRepository, StorageService storageService) {
         this.globalProductRepository = globalProductRepository;
-        this.firebaseStorageService = firebaseStorageService;
+        this.storageService = storageService;
     }
 
     public List<GlobalProductResponseDTO> getAllProducts() {
@@ -62,7 +62,7 @@ public class GlobalProductService {
             globalProduct.setCategory(globalProductDTO.getCategory());
 
             if (images != null && !images.isEmpty()) {
-                List<String> imageUrls = firebaseStorageService.uploadFiles(images);
+                List<String> imageUrls = storageService.uploadFiles(images);
                 globalProduct.getImageURList().clear();
                 globalProduct.getImageURList().addAll(imageUrls);
             }
@@ -76,7 +76,7 @@ public class GlobalProductService {
             );
 
             if (images != null && !images.isEmpty()) {
-                List<String> imageUrls = firebaseStorageService.uploadFiles(images);
+                List<String> imageUrls = storageService.uploadFiles(images);
                 globalProduct.getImageURList().addAll(imageUrls);
             }
 
@@ -90,7 +90,7 @@ public class GlobalProductService {
     public boolean deleteProduct(UUID id) {
         if (globalProductRepository.existsById(id)) {
             
-            firebaseStorageService.deleteImages(globalProductRepository.findById(id).get().getImageURList());
+            storageService.deleteImages(globalProductRepository.findById(id).get().getImageURList());
             
             globalProductRepository.deleteById(id);
             return true;
