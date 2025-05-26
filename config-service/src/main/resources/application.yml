@@ -1,0 +1,31 @@
+server:
+  port: 8888
+
+spring:
+  profiles:
+    active: git
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/khamseaffan/HomeStore_config
+          username: ${GIT_USERNAME}
+          password: ${GIT_PASSWORD}
+          default-label: main
+          clone-on-start: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+  health:
+    diskspace:
+      enabled: true
+
+logging:
+  level:
+    org.springframework.cloud.config: DEBUG
